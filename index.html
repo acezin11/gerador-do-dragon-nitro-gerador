@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerador do Dragon 1.0</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #1e1e1e;
+            color: #f0f0f0;
+            padding: 50px;
+        }
+        h1 {
+            color: #ff5722;
+        }
+        #logo {
+            width: 150px; /* Tamanho reduzido */
+        }
+        #output {
+            margin-top: 20px;
+            white-space: pre-line;
+            background: #2e2e2e;
+            padding: 20px;
+            border-radius: 10px;
+            color: #00ff00;
+            text-align: left;
+        }
+        input, button {
+            padding: 10px;
+            border-radius: 5px;
+            border: none;
+            margin: 5px;
+        }
+        button {
+            background-color: #ff5722;
+            color: #fff;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #e64a19;
+        }
+        .discord-button {
+            margin-top: 20px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+        .discord-button img {
+            width: 50px;
+            height: 50px;
+        }
+        .scroll-top-button {
+            margin-top: 20px;
+            background-color: #4caf50;
+            color: #fff;
+        }
+        .scroll-top-button:hover {
+            background-color: #388e3c;
+        }
+    </style>
+</head>
+<body>
+    <img id="logo" src="https://i.postimg.cc/cJYfjCgY/Round-Photo-Oct072024-195630.png" alt="Logo do Dragon">
+    <h1>Gerador do Dragon 1.0</h1>
+    <p>Quantos códigos de nitro você quer gerar e checar?</p>
+    <input type="number" id="numCodes" placeholder="Digite um número">
+    <br><br>
+    <button onclick="generateNitro()">Gerar</button>
+    <button onclick="clearOutput()">Limpar</button>
+    
+    <!-- Botão com a logo do Discord -->
+    <button class="discord-button" onclick="window.location.href='https://discord.gg/RTDPqzBC'">
+        <img src="https://logodownload.org/wp-content/uploads/2017/11/discord-logo-1-1.png" alt="Discord Logo">
+    </button>
+
+    <div id="output"></div>
+    <button onclick="copyToClipboard()">Copiar Links</button>
+    <button class="scroll-top-button" onclick="scrollToTop()">Voltar ao Topo</button>
+
+    <script>
+        function generateNitro() {
+            const num = document.getElementById('numCodes').value;
+            const output = document.getElementById('output');
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            let codes = '';
+
+            if (!num || num <= 0) {
+                output.textContent = 'Por favor, insira um número válido.';
+                return;
+            }
+
+            output.textContent = 'Carregando Sistema...\n';
+            
+            setTimeout(() => {
+                output.textContent += 'Seus códigos de nitro estão sendo gerados, seja paciente...\n';
+
+                for (let i = 0; i < num; i++) {
+                    let code = '';
+                    for (let j = 0; j < 16; j++) {
+                        code += chars.charAt(Math.floor(Math.random() * chars.length));
+                    }
+                    codes += `https://discord.gift/${code}\n`;
+                }
+
+                output.textContent += `Gerados ${num} códigos de nitro.\n\n${codes}`;
+                output.setAttribute('data-codes', codes); // Adiciona os códigos a um atributo de dados
+            }, 500);
+        }
+
+        function clearOutput() {
+            const output = document.getElementById('output');
+            output.textContent = '';
+            output.removeAttribute('data-codes'); // Remove os códigos gerados
+        }
+
+        function copyToClipboard() {
+            const codes = document.getElementById('output').getAttribute('data-codes');
+            navigator.clipboard.writeText(codes).then(() => {
+                alert('Links copiados para a área de transferência.');
+            }).catch(err => {
+                console.error('Erro ao copiar:', err);
+            });
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
